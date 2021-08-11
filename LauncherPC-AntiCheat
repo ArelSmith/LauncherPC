@@ -1,0 +1,49 @@
+using Microsoft.Win32;
+using System.IO;
+using System.Diagnostics;    
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+        string myRegistryKey = Registry.CurrentUser.OpenSubKey(@"Software\\SAMP").GetValue("gta_sa_exe").ToString();
+        myRegistryKey = myRegistryKey.Substring(0, myRegistryKey.LastIndexOf(@"\") + 1);
+        textBox1.Text = Registry.CurrentUser.OpenSubKey(@"Software\SAMP", true).GetValue("PlayerName").ToString();
+        if (!File.Exists(myRegistryKey + "gta_sa.exe"))
+        {
+            MessageBox.Show("GTA San andreas tidak terdeteksi, silahkan menginstal terlebih dahulu", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            base.Close();
+            Application.Exit();
+        }
+        else if (!File.Exists(myRegistryKey + "samp.exe"))
+        {
+            MessageBox.Show("SAMP Client tidak terdeteksi, Instal terlebih dahulu", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            base.Close();
+            Application.Exit();
+        }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        string ServerIP = "176.57.128.242:7777 "; //IP Server kamu
+        string Password = ""; //Password server
+        string GTAPath = Registry.CurrentUser.OpenSubKey(@"Software\\SAMP").GetValue("gta_sa_exe").ToString();
+        GTAPath = GTAPath.Substring(0, GTAPath.LastIndexOf(@"\") + 1);
+        string[] Cheat1 = Directory.GetDirectories(GTAPath, "cleo");
+        string[] Cheat2 = Directory.GetFiles(GTAPath, "CLEO.asi");
+        string[] Cheat3 = Directory.GetFiles(GTAPath, "d3d9.dll");
+        string[] Cheat4 = Directory.GetFiles(GTAPath, "SAMPFUNCS.asi");
+        string[] Cheat5 = Directory.GetDirectories(GTAPath, "mod_sa");
+        string[] Cheat6 = Directory.GetDirectories(GTAPath, "OverLight_Mod");
+        if (((Cheat1.Length > 0) || (Cheat2.Length > 0)) || ((Cheat3.Length > 0) || (Cheat4.Length > 0)))
+        {
+            MessageBox.Show("Hapus cleo, cleo.asi, d3d9.dll, SAMPFUNC.asi untuk mulai main", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+        }
+       	else if ((Cheat5.Length > 0) || (Cheat6.Length > 0))
+        {
+            MessageBox.Show("Hapus mod_sa dan OverLight_Mod untuk mulai main", "Perhatian", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+        }
+        else
+        {
+            Registry.CurrentUser.OpenSubKey(@"Software\SAMP", true).SetValue("PlayerName", textBox1.Text);
+            Process.Start(GTAPath + "samp.exe", ServerIP + Password);
+        }
+    }
