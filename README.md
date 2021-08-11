@@ -1,5 +1,5 @@
 # VScodeScript
 
 Terimakasih sudah mau memakai script ini
-Mau Request? silahkan hubungi email:
+Jika ada masalah dalam script atau mau request script silahkan ke email:
 gudpromote@gmail.com
